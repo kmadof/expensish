@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  expensish-app: 
+    build: './expensish-app'
+    ports:
+      - 3000:80
+    depends_on:
+      - expensish-api
+  expensish-api:
+    build: './expensish-api/Expensish.Api'
