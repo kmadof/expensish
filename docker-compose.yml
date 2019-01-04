@@ -7,5 +7,9 @@ services:
       - 3000:80
     depends_on:
       - expensish-api
+    image: exoltenone/expensish:0.2
   expensish-api:
     build: './expensish-api/Expensish.Api'
+    ports:
+      - 3500:80
+    image: exoltenone/expensish-api:0.2

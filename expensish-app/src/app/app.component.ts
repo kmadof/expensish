@@ -16,9 +16,10 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get('expensish-api/api/values').subscribe(
-      (resp: Array<string>) => this.values = resp,
-      error => this.error = error // error path
+    // http://expensish-api/api/values'
+    this.http.get('http://localhost:3500/api/values').subscribe(
+      (resp: any) => this.values = resp,
+      error => console.error(error) // error path
     );
   }
 
