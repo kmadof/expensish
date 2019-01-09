@@ -54,7 +54,10 @@ namespace Expensish.Api
             app.UseCors("CorsPolicy");
 
             //app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "{Controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {PlatformLocation } from '@angular/common';
 
 
 @Component({
@@ -13,11 +14,14 @@ export class AppComponent implements OnInit {
   values: Array<string>;
   error: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private platformLocation: PlatformLocation) { }
 
   ngOnInit(): void {
-    // http://expensish-api/api/values'
-    this.http.get('http://localhost:3500/api/values').subscribe(
+    const baseUrl = (this.platformLocation as any).location.href as string;
+    const basePort = (this.platformLocation as any).location.port as string;
+    const apiBaseUrl = baseUrl.replace(basePort, '8081');
+
+    this.http.get(apiBaseUrl + 'api/values').subscribe(
       (resp: any) => this.values = resp,
       error => console.error(error) // error path
     );

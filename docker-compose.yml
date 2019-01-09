@@ -1,15 +1,23 @@
 version: '3.1'
 
 services:
+  expensish-reverseproxy:
+    build: './expensish-reverse-proxy'
+    image: exoltenone/expensish-reverseproxy:0.3
+    ports:
+        - 8080:8080
+        - 8081:8081
+    restart: always
+    depends_on:
+      - expensish-app
+      - expensish-api
   expensish-app: 
     build: './expensish-app'
-    ports:
-      - 3000:80
-    depends_on:
-      - expensish-api
-    image: exoltenone/expensish:0.2
+    # depends_on:
+    #   - expensish-reverseproxy
+    image: exoltenone/expensish:0.3
   expensish-api:
     build: './expensish-api/Expensish.Api'
-    ports:
-      - 3500:80
-    image: exoltenone/expensish-api:0.2
+    # depends_on:
+    #   - expensish-reverseproxy
+    image: exoltenone/expensish-api:0.3
