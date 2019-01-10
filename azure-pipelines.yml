@@ -15,6 +15,9 @@ variables:
 
 # λ dotnet build expensish-api\Expensish-api.sln
 steps:
+- script: dir
+  workingDirectory: $(Agent.BuildDirectory)
+  displayName: List contents of a folder
 - script: |
     dotnet build --configuration $(buildConfiguration) expensish-api\Expensish-api.sln
   displayName: 'expensish api'
