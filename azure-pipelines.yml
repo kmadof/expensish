@@ -17,7 +17,16 @@ variables:
 steps:
 - script: dir
   workingDirectory: $(Agent.BuildDirectory)
-  displayName: List contents of a folder
+  displayName: List contents of a folder BuildDirectory
+- script: dir
+  workingDirectory: $(Agent.HomeDirectory)
+  displayName: List contents of a folder HomeDirectory
+- script: dir
+  workingDirectory: $(Agent.WorkFolder)
+  displayName: List contents of a folder WorkFolder
+- script: dir
+  workingDirectory: $(Build.SourcesDirectory)
+  displayName: List contents of a folder Build.SourcesDirectory
 - script: |
     dotnet build --configuration $(buildConfiguration) expensish-api\Expensish-api.sln
   displayName: 'expensish api'
