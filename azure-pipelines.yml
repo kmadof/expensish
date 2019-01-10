@@ -10,6 +10,7 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
+  buildConfiguration: 'Release'
   imageName: 'exoltenone/expensish-api:$(build.buildId)'
 
 # λ dotnet build expensish-api\Expensish-api.sln
