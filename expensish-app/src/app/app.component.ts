@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const baseUrl = (this.platformLocation as any).location.href as string;
     const basePort = (this.platformLocation as any).location.port as string;
-    const apiBaseUrl = baseUrl.replace(basePort, '8081');
+    const apiBaseUrl = baseUrl.replace(basePort, '9091');
+    console.log(apiBaseUrl);
 
     this.http.get(apiBaseUrl + 'api/values').subscribe(
       (resp: any) => this.values = resp,
