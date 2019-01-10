@@ -10,8 +10,12 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-  imageName: 'your-container-image-name:$(build.buildId)'
+  imageName: 'exoltenone/expensish-api:$(build.buildId)'
 
+# λ dotnet build expensish-api\Expensish-api.sln
 steps:
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
+- script: |
+    dotnet build --configuration $(buildConfiguration) expensish-api\Expensish-api.sln
+    displayName: 'expensish api'
+# - script: docker build -f Dockerfile -t $(imageName) .
+#   displayName: 'docker build'
