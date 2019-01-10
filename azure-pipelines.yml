@@ -28,7 +28,7 @@ steps:
   workingDirectory: $(Build.SourcesDirectory)
   displayName: List contents of a folder Build.SourcesDirectory
 - script: |
-    dotnet build --configuration $(buildConfiguration) expensish-api\Expensish-api.sln
+    dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
   displayName: 'expensish api'
 # - script: docker build -f Dockerfile -t $(imageName) .
 #   displayName: 'docker build'
