@@ -17,6 +17,6 @@ variables:
 steps:
 - script: |
     dotnet build --configuration $(buildConfiguration) expensish-api\Expensish-api.sln
-    displayName: 'expensish api'
+  displayName: 'expensish api'
 # - script: docker build -f Dockerfile -t $(imageName) .
 #   displayName: 'docker build'
