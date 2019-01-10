@@ -3,7 +3,7 @@ version: '3.1'
 services:
   expensish-reverseproxy:
     build: './expensish-reverse-proxy'
-    image: exoltenone/expensish-reverseproxy:0.4
+    image: "exoltenone/expensish-reverseproxy:${TAG}"
     ports:
         - 9090:8080
         - 9091:8081
@@ -15,9 +15,9 @@ services:
     build: './expensish-app'
     # depends_on:
     #   - expensish-reverseproxy
-    image: exoltenone/expensish:0.4
+    image: exoltenone/expensish:${TAG}
   expensish-api:
     build: './expensish-api/Expensish.Api'
     # depends_on:
     #   - expensish-reverseproxy
-    image: exoltenone/expensish-api:0.4
+    image: exoltenone/expensish-api:${TAG}
