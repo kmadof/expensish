@@ -38,6 +38,15 @@ steps:
   env:
     pswd: $(dockerPassword)
 
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+
+    projects: '**/*Tests/*.csproj'
+
+    arguments: '--configuration $(buildConfiguration) --logger trx'
+
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
