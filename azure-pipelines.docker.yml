@@ -43,7 +43,7 @@ steps:
   env:
     pswd: $(dockerPassword)
 
-- script: dir
+- script: dir /recursive
   workingDirectory: $(System.DefaultWorkingDirectory)
   displayName: List contents of a folder System.DefaultWorkingDirectory
   condition: succeededOrFailed()
