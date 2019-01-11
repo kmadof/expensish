@@ -68,6 +68,16 @@ steps:
   displayName: List contents of a folder System.DefaultWorkingDirectory
   condition: succeededOrFailed()
 
+- script: dir
+  workingDirectory: $(System.DefaultWorkingDirectory)/results
+  displayName: List contents of a folder System.DefaultWorkingDirectory results
+  condition: succeededOrFailed()
+
+- script: dir
+  workingDirectory: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests
+  displayName: List contents of a folder System.DefaultWorkingDirectory Expensish.Api.Tests
+  condition: succeededOrFailed()
+
 # - task: PublishCodeCoverageResults@1
 #   inputs:
 #     codeCoverageTool: cobertura
