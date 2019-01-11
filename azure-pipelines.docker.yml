@@ -43,16 +43,18 @@ steps:
   env:
     pswd: $(dockerPassword)
 
-- script: dir /s
-  workingDirectory: $(System.DefaultWorkingDirectory)
+- script: dir
+  workingDirectory: $(System.DefaultWorkingDirectory)/expensish-api/Expensish.Api.Tests/TestResults
   displayName: List contents of a folder System.DefaultWorkingDirectory
   condition: succeededOrFailed()
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: cobertura
-    summaryFileLocation: $(System.DefaultWorkingDirectory)/TestResults/Coverage/**/*.xml
-    reportDirectory: $(System.DefaultWorkingDirectory)/TestResults/Coverage/Reports
+    # summaryFileLocation: $(System.DefaultWorkingDirectory)/TestResults/Coverage/**/*.xml
+    # reportDirectory: $(System.DefaultWorkingDirectory)/TestResults/Coverage/Reports
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/TestResults/*.xml
+    reportDirectory: $(System.DefaultWorkingDirectory)/TestResults/Reports
     failIfCoverageEmpty: false
   condition: succeededOrFailed()
 
