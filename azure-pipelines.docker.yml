@@ -13,23 +13,10 @@ variables:
   buildConfiguration: 'Release'
   imageName: 'expensish-api:$(build.buildId)'
 
-# λ dotnet build expensish-api\Expensish-api.sln
 steps:
-# - script: dir
-#   workingDirectory: $(Agent.BuildDirectory)
-#   displayName: List contents of a folder BuildDirectory
-# - script: dir
-#   workingDirectory: $(Agent.HomeDirectory)
-#   displayName: List contents of a folder HomeDirectory
-# - script: dir
-#   workingDirectory: $(Agent.WorkFolder)
-#   displayName: List contents of a folder WorkFolder
-# - script: dir
-#   workingDirectory: $(Build.SourcesDirectory)
-#   displayName: List contents of a folder Build.SourcesDirectory
 
 - task: DotNetCoreCLI@2
-  displayName: Test
+  displayName: Test Expensish.Api
   inputs:
     command: test
 
