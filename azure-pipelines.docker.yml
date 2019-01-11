@@ -46,6 +46,7 @@ steps:
 - script: dir
   workingDirectory: $(System.DefaultWorkingDirectory)
   displayName: List contents of a folder System.DefaultWorkingDirectory
+  condition: succeededOrFailed()
 
 - task: PublishCodeCoverageResults@1
   inputs:
