@@ -43,6 +43,10 @@ steps:
   env:
     pswd: $(dockerPassword)
 
+- script: dir
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  displayName: List contents of a folder System.DefaultWorkingDirectory
+
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: cobertura
