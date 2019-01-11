@@ -37,3 +37,9 @@ steps:
   displayName: 'expensish api'
   env:
     pswd: $(dockerPassword)
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
