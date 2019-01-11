@@ -31,15 +31,15 @@ steps:
 #     testRunner: VSTest
 #     testResultsFiles: '**/*.trx'
 
-- script: dotnet build --configuration $(buildConfiguration) expensish-api\Expensish-api.sln
+- script: dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
   displayName: 'dotnet build $(buildConfiguration)'
 - script: |
-    mkdir $(Build.SourcesDirectory)\results
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  expensish-api\Expensish.Api.Tests 
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWtih=$(Build.SourcesDirectory)\expensish-api\Expensish.Api.Tests\coverage.cobertura.xml expensish-api\Expensish.Api.Tests 
-    copy $(Build.SourcesDirectory)\expensish-api\Expensish.Api.Tests \coverage.cobertura.xml $(Build.SourcesDirectory)\results
+    mkdir $(Build.SourcesDirectory)/results
+    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  expensish-api/Expensish.Api.Tests 
+    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWtih=$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml expensish-api/Expensish.Api.Tests 
+    copy $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests /coverage.cobertura.xml $(Build.SourcesDirectory)/results
     dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
-    .\reportgenerator "-reports:$(Build.SourcesDirectory)\expensish-api\Expensish.Api.Tests \coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
+    .\reportgenerator "-reports:$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests /coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
   displayName: 'Unit testing'
 - task: PublishTestResults@2
   inputs:
@@ -47,8 +47,8 @@ steps:
     testResultsFiles: '**/*.trx'
 - task: PublishCodeCoverageResults@1
   inputs:
-    summaryFileLocation: $(Build.SourcesDirectory)\results\coverage.cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)\results
+    summaryFileLocation: $(Build.SourcesDirectory)/results/coverage.cobertura.xml
+    reportDirectory: $(Build.SourcesDirectory)/results
     codecoverageTool: cobertura
 
 # - script: |
