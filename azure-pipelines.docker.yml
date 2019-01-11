@@ -25,6 +25,13 @@ steps:
 #     arguments: '--configuration $(buildConfiguration) --logger trx'
 #     publishTestResults: true
 
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet functional tests'
+  inputs:
+    command: test
+    projects:  '**/*Tests/*.csproj'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.ArtifactStagingDirectory)/results/final.xml /p:Exclude="[XXX.YYY.WebHost]*" /nodereuse:false'
+
 # - task: PublishTestResults@2
 #   condition: succeededOrFailed()
 #   inputs:
