@@ -37,5 +37,3 @@ steps:
   displayName: 'expensish api'
   env:
     pswd: $(dockerPassword)
-# - script: docker build -f Dockerfile -t $(imageName) .
-#   displayName: 'docker build'
