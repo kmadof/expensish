@@ -23,21 +23,42 @@ steps:
     projects: '**/*Tests/*.csproj'
 
     arguments: '--configuration $(buildConfiguration) --logger trx'
+    publishTestResults: true
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+# - task: PublishTestResults@2
+#   condition: succeededOrFailed()
+#   inputs:
+#     testRunner: VSTest
+#     testResultsFiles: '**/*.trx'
 
 - script: |
     dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
-    dotnet test expensish-api/Expensish.Api.Tests --configuration $(buildConfiguration) --logger trx
+    # dotnet test expensish-api/Expensish.Api.Tests --configuration $(buildConfiguration) --logger trx
+    dotnet test expensish-api/Expensish.Api.Tests --configuration $(buildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(System.DefaultWorkingDirectory)/TestResults/Coverage/
+    cd ./expensish-api/Expensish.Api.Tests/
+    dotnet reportgenerator "-reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/coverage.cobertura.xml" "-targetdir:$(System.DefaultWorkingDirectory)/TestResults/Coverage/Reports" "-reportTypes:htmlInline" "-tag:$(Build.BuildNumber)"
+    cd ../../
+  displayName: 'Test Coverage Expensish.Api'
+  condition: succeededOrFailed()
+  env:
+    pswd: $(dockerPassword)
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: cobertura
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/TestResults/Coverage/**/*.xml
+    reportDirectory: $(System.DefaultWorkingDirectory)/TestResults/Coverage/Reports
+    failIfCoverageEmpty: false
+  condition: succeededOrFailed()
+
+- script: |
+    dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
+    # dotnet test expensish-api/Expensish.Api.Tests --configuration $(buildConfiguration) --logger trx
     dotnet publish expensish-api --configuration $(buildConfiguration) --output out
     docker build -f docker/azure/expensish-api/Dockerfile -t $(dockerId)/$(imageName) .
     docker login -u $(dockerId) -p $pswd
     docker push $(dockerId)/$(imageName)
-  displayName: 'expensish api'
+  displayName: 'Create docker image for Expensish.Api'
   condition: succeeded()
   env:
     pswd: $(dockerPassword)
