@@ -64,10 +64,10 @@ steps:
 #   env:
 #     pswd: $(dockerPassword)
 
-# - script: dir
-#   workingDirectory: $(System.DefaultWorkingDirectory)/expensish-api/Expensish.Api.Tests/TestResults
-#   displayName: List contents of a folder System.DefaultWorkingDirectory
-#   condition: succeededOrFailed()
+- script: dir
+  workingDirectory: $(System.DefaultWorkingDirectory)
+  displayName: List contents of a folder System.DefaultWorkingDirectory
+  condition: succeededOrFailed()
 
 # - task: PublishCodeCoverageResults@1
 #   inputs:
