@@ -6,15 +6,15 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
-
 variables:
   buildConfiguration: 'Release'
   imageName: 'expensish-api:$(build.buildId)'
 
 jobs:
   - job: Expensish API
+
+    pool:
+      vmImage: 'Ubuntu-16.04'
 
     steps:
 
