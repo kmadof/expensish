@@ -12,7 +12,7 @@ variables:
 
 jobs:
   - job: ExpensishAPI
-
+    condition: failed()
     pool:
       vmImage: 'Ubuntu-16.04'
 
@@ -74,7 +74,7 @@ jobs:
     - task: Npm@1
       displayName: 'npm install'
       inputs:
-        workingDir: expensish\expensish-app
+        workingDir: expensish-app
 
         verbose: false
 
@@ -84,7 +84,7 @@ jobs:
       inputs:
         command: custom
 
-        workingDir: expensish\expensish-app
+        workingDir: expensish-app
 
         verbose: false
 
@@ -103,7 +103,7 @@ jobs:
       inputs:
         command: custom
 
-        workingDir: expensish\expensish-app
+        workingDir: expensish-app
 
         verbose: false
 
