@@ -95,7 +95,8 @@ jobs:
     - task: PublishTestResults@2
       displayName: 'Publish Test Results'
       inputs:
-        testResultsFiles: 'TEST-*.xml'
+        # testResultsFiles: 'TEST-*.xml'
+        testResultsFiles: 'TESTS-HeadlessChrome_71.0.3578_(Linux_0.0.0).xml'
         searchFolder: '$(Build.SourcesDirectory)/expensish-app/src/'
 
       condition: always()
