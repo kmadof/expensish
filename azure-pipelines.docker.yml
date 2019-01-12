@@ -11,7 +11,7 @@ variables:
   imageName: 'expensish-api:$(build.buildId)'
 
 jobs:
-  - job: Expensish API
+  - job: ExpensishAPI
 
     pool:
       vmImage: 'Ubuntu-16.04'
@@ -53,5 +53,4 @@ jobs:
       condition: failed()
       env:
         pswd: $(dockerPassword)
-
 
