@@ -54,7 +54,7 @@ steps:
     testResultsFiles: '**/*.trx'
 - task: PublishCodeCoverageResults@1
   inputs:
-    summaryFileLocation: $(Build.SourcesDirectory)/results/coverage.cobertura.xml
+    summaryFileLocation: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml
     reportDirectory: $(Build.SourcesDirectory)/results
     codecoverageTool: cobertura
 
@@ -108,7 +108,7 @@ steps:
     docker login -u $(dockerId) -p $pswd
     docker push $(dockerId)/$(imageName)
   displayName: 'Create docker image for Expensish.Api'
-  condition: succeeded()
+  condition: failed()
   env:
     pswd: $(dockerPassword)
 
