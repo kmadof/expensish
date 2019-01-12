@@ -94,7 +94,7 @@ jobs:
     - task: PublishTestResults@2
       displayName: 'Publish Test Results'
       inputs:
-        testResultsFiles: '**\TESTS-*.xml'
+        testResultsFiles: 'expensish-app\src\TESTS-*.xml'
 
       condition: always()
 
