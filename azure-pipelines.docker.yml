@@ -94,7 +94,7 @@ jobs:
     - task: PublishTestResults@2
       displayName: 'Publish Test Results'
       inputs:
-        testResultsFiles: '**/TEST-*.xml
+        testResultsFiles: '**/TEST-*.xml'
         searchFolder: '$(Build.SourcesDirectory)/expensish-app'
 
       condition: always()
