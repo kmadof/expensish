@@ -13,38 +13,45 @@ variables:
   buildConfiguration: 'Release'
   imageName: 'expensish-api:$(build.buildId)'
 
-steps:
+jobs:
+  - job: Expensish API
 
-- script: dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
-  displayName: 'dotnet build $(buildConfiguration)'
-- script: |
-    mkdir $(Build.SourcesDirectory)/results
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  expensish-api/Expensish.Api.Tests /p:Exclude=\"[xunit.*]*,[*]Coverlet.Core*\"
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWtih=$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml expensish-api/Expensish.Api.Tests /p:Exclude=\"[xunit.*]*,[*]Coverlet.Core*\"
-    copy $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml $(Build.SourcesDirectory)/results  
-    dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
-    ./reportgenerator "-reports:$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart" "-assemblyfilters:-xunit*"
-  displayName: 'Unit testing'
-- task: PublishTestResults@2
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
-- task: PublishCodeCoverageResults@1
-  inputs:
-    summaryFileLocation: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)/results
-    codecoverageTool: cobertura
+    steps:
 
-- script: |
-    # dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
-    # dotnet test expensish-api/Expensish.Api.Tests --configuration $(buildConfiguration) --logger trx
-    dotnet publish expensish-api --configuration $(buildConfiguration) --output out
-    docker build -f docker/azure/expensish-api/Dockerfile -t $(dockerId)/$(imageName) .
-    docker login -u $(dockerId) -p $pswd
-    docker push $(dockerId)/$(imageName)
-  displayName: 'Create docker image for Expensish.Api'
-  condition: failed()
-  env:
-    pswd: $(dockerPassword)
+    - script: dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
+      displayName: 'dotnet build $(buildConfiguration)'
+    - script: |
+        mkdir $(Build.SourcesDirectory)/results
+        dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  expensish-api/Expensish.Api.Tests /p:Exclude=\"[xunit.*]*,[*]Coverlet.Core*\"
+        dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWtih=$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml expensish-api/Expensish.Api.Tests /p:Exclude=\"[xunit.*]*,[*]Coverlet.Core*\"
+        copy $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml $(Build.SourcesDirectory)/results  
+        dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
+        ./reportgenerator "-reports:$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart" "-assemblyfilters:-xunit*"
+      displayName: 'Unit testing'
+    - task: PublishTestResults@2
+      inputs:
+        testRunner: VSTest
+        testResultsFiles: '**/*.trx'
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        summaryFileLocation: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml
+        reportDirectory: $(Build.SourcesDirectory)/results
+        codecoverageTool: cobertura
+
+    - task: NodeTool@0 
+      inputs:
+        versionSpec: '11.x' # replace this value with the version that you need for your project
+
+    - script: |
+        # dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
+        # dotnet test expensish-api/Expensish.Api.Tests --configuration $(buildConfiguration) --logger trx
+        dotnet publish expensish-api --configuration $(buildConfiguration) --output out
+        docker build -f docker/azure/expensish-api/Dockerfile -t $(dockerId)/$(imageName) .
+        docker login -u $(dockerId) -p $pswd
+        docker push $(dockerId)/$(imageName)
+      displayName: 'Create docker image for Expensish.Api'
+      condition: failed()
+      env:
+        pswd: $(dockerPassword)
 
 
