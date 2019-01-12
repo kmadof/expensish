@@ -96,7 +96,7 @@ jobs:
       displayName: 'Publish Test Results'
       inputs:
         # testResultsFiles: 'TEST-*.xml'
-        testResultsFiles: 'TESTS-HeadlessChrome_71.0.3578_(Linux_0.0.0).xml'
+        testResultsFiles: 'TESTS-HeadlessChrome_71.0.3578_(Linux_0.0.0).xml;**/TEST-*.xml;*/TEST-*.xml;TEST-*.xml;/TEST-*.xml'
         searchFolder: '$(Build.SourcesDirectory)/expensish-app/src/'
 
       condition: always()
