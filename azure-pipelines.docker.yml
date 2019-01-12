@@ -94,7 +94,8 @@ jobs:
     - task: PublishTestResults@2
       displayName: 'Publish Test Results'
       inputs:
-        testResultsFiles: 'expensish-app\src\TESTS-*.xml'
+        testResultsFiles: '**\TESTS-*.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)\expensish-app'
 
       condition: always()
 
@@ -123,7 +124,7 @@ jobs:
       condition: succeededOrFailed()
 
     - script: dir
-      workingDirectory: $(Build.SourcesDirectory)/expensish-app
+      workingDirectory: $(Build.SourcesDirectory)/expensish-app/src/
       displayName: List contents of a folder System.DefaultWorkingDirectory Expensish.Api.Tests
       condition: succeededOrFailed()
 
