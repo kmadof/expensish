@@ -42,8 +42,8 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 - script: |
     mkdir $(Build.SourcesDirectory)/results
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  expensish-api/Expensish.Api.Tests 
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWtih=$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml expensish-api/Expensish.Api.Tests 
+    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  expensish-api/Expensish.Api.Tests /p:Exclude=\"[xunit.*]*,[*]Coverlet.Core*\"
+    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:MergeWtih=$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml expensish-api/Expensish.Api.Tests /p:Exclude=\"[xunit.*]*,[*]Coverlet.Core*\"
     copy $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml $(Build.SourcesDirectory)/results  
     dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.0.0-rc4
     ./reportgenerator "-reports:$(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart" "-assemblyfilters:-xunit*"
