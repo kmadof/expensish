@@ -94,8 +94,8 @@ jobs:
     - task: PublishTestResults@2
       displayName: 'Publish Test Results'
       inputs:
-        testResultsFiles: '**/TEST-*.xml'
-        searchFolder: '$(Build.SourcesDirectory)/expensish-app'
+        testResultsFiles: 'TEST-*.xml'
+        searchFolder: '$(Build.SourcesDirectory)/expensish-app/src'
 
       condition: always()
 
@@ -119,12 +119,12 @@ jobs:
     #     ng build --prod expensish-app
 
     - script: dir
-      workingDirectory: $(System.DefaultWorkingDirectory)
-      displayName: List contents of a folder System.DefaultWorkingDirectory
+      workingDirectory: $(System.DefaultWorkingDirectory)/expensish-app
+      displayName: List contents of a folder System.DefaultWorkingDirectory expensish-app
       condition: succeededOrFailed()
 
     - script: dir
       workingDirectory: $(Build.SourcesDirectory)/expensish-app/src/
-      displayName: List contents of a folder System.DefaultWorkingDirectory Expensish.Api.Tests
+      displayName: List contents of a folder Build.SourcesDirectory expensish-app
       condition: succeededOrFailed()
 
