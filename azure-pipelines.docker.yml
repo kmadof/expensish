@@ -61,14 +61,14 @@ jobs:
       inputs:
         versionSpec: '11.x' # replace this value with the version that you need for your project
     
-    - task: Npm@1
-      displayName: 'npm install PhantomJS'
-      inputs:
-        command: custom
+    # - task: Npm@1
+    #   displayName: 'npm install PhantomJS'
+    #   inputs:
+    #     command: custom
 
-        verbose: false
+    #     verbose: false
 
-        customCommand: 'install phantomjs-prebuilt'
+    #     customCommand: 'install phantomjs-prebuilt'
 
 
     - task: Npm@1
