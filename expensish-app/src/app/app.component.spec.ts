@@ -1,17 +1,24 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
+
+  let httpMock: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule, HttpClientTestingModule
       ],
       declarations: [
         AppComponent
       ],
     }).compileComponents();
+
+    httpMock = TestBed.get(HttpTestingController);
+
   }));
 
   it('should create the app', () => {
@@ -23,7 +30,7 @@ describe('AppComponent', () => {
   it(`should have as title 'expensish'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('expensish');
+    expect(app.title).toEqual('expensish1');
   });
 
   it('should render title in a h1 tag', () => {
