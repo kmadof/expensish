@@ -13,7 +13,7 @@ variables:
 
 jobs:
   - job: ExpensishAPI
-    condition: failed()
+    # condition: failed()
     pool:
       vmImage: 'Ubuntu-16.04'
 
@@ -95,8 +95,7 @@ jobs:
     - task: PublishTestResults@2
       displayName: 'Publish Test Results'
       inputs:
-        # testResultsFiles: 'TEST-*.xml'
-        testResultsFiles: 'TESTS-HeadlessChrome_71.0.3578_(Linux_0.0.0).xml;**/TEST-*.xml;*/TEST-*.xml;TEST-*.xml;/TEST-*.xml'
+        testResultsFiles: 'TESTS-*.xml'
         searchFolder: '$(Build.SourcesDirectory)/expensish-app/src/'
 
       condition: always()
