@@ -61,13 +61,61 @@ jobs:
       inputs:
         versionSpec: '11.x' # replace this value with the version that you need for your project
     
-    - script: npm install --only=dev
-    - script: npm install -g @angular/cli
+    - task: Npm@1
+      displayName: 'npm install PhantomJS'
+      inputs:
+        command: custom
 
-    - script: |
-        npm install -g @angular/cli
-        npm install
-        ng build --prod
+        verbose: false
+
+        customCommand: 'install phantomjs-prebuilt'
+
+
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        workingDir: expensish\expensish-app
+
+        verbose: false
+
+
+    - task: Npm@1
+      displayName: 'Run Tests'
+      inputs:
+        command: custom
+
+        workingDir: expensish\expensish-app
+
+        verbose: false
+
+        customCommand: 'run test-single-headless'
+
+
+    - task: PublishTestResults@2
+      displayName: 'Publish Test Results'
+      inputs:
+        testResultsFiles: '**\TESTS-*.xml'
+
+      condition: always()
+
+    - task: Npm@1
+      displayName: 'npm build'
+      inputs:
+        command: custom
+
+        workingDir: expensish\expensish-app
+
+        verbose: false
+
+        customCommand: 'run build-prod'
+
+    # - script: npm install --only=dev
+    # - script: npm install -g @angular/cli
+
+    # - script: |
+    #     npm install -g @angular/cli
+    #     npm install expensish-app
+    #     ng build --prod expensish-app
 
     - script: dir
       workingDirectory: $(System.DefaultWorkingDirectory)
@@ -75,16 +123,7 @@ jobs:
       condition: succeededOrFailed()
 
     - script: dir
-      workingDirectory: $(System.DefaultWorkingDirectory)/results
-      displayName: List contents of a folder System.DefaultWorkingDirectory results
-      condition: succeededOrFailed()
-
-    - script: dir
-      workingDirectory: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests
+      workingDirectory: $(Build.SourcesDirectory)/expensish-app
       displayName: List contents of a folder System.DefaultWorkingDirectory Expensish.Api.Tests
       condition: succeededOrFailed()
 
-    - script: dir
-      workingDirectory: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/TestResults
-      displayName: List contents of a folder System.DefaultWorkingDirectory Expensish.Api.Tests TestResults
-      condition: succeededOrFailed()
