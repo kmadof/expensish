@@ -38,10 +38,6 @@ jobs:
         reportDirectory: $(Build.SourcesDirectory)/results
         codecoverageTool: cobertura
 
-    - task: NodeTool@0 
-      inputs:
-        versionSpec: '11.x' # replace this value with the version that you need for your project
-
     - script: |
         # dotnet build --configuration $(buildConfiguration) expensish-api/Expensish-api.sln
         # dotnet test expensish-api/Expensish.Api.Tests --configuration $(buildConfiguration) --logger trx
@@ -54,3 +50,41 @@ jobs:
       env:
         pswd: $(dockerPassword)
 
+  - job: ExpensishAPP
+
+    pool:
+      vmImage: 'Ubuntu-16.04'
+
+    steps:
+
+    - task: NodeTool@0 
+      inputs:
+        versionSpec: '11.x' # replace this value with the version that you need for your project
+    
+    - script: npm install --only=dev
+    - script: npm install -g @angular/cli
+
+    - script: |
+        npm install -g @angular/cli
+        npm install
+        ng build --prod
+
+    - script: dir
+      workingDirectory: $(System.DefaultWorkingDirectory)
+      displayName: List contents of a folder System.DefaultWorkingDirectory
+      condition: succeededOrFailed()
+
+    - script: dir
+      workingDirectory: $(System.DefaultWorkingDirectory)/results
+      displayName: List contents of a folder System.DefaultWorkingDirectory results
+      condition: succeededOrFailed()
+
+    - script: dir
+      workingDirectory: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests
+      displayName: List contents of a folder System.DefaultWorkingDirectory Expensish.Api.Tests
+      condition: succeededOrFailed()
+
+    - script: dir
+      workingDirectory: $(Build.SourcesDirectory)/expensish-api/Expensish.Api.Tests/TestResults
+      displayName: List contents of a folder System.DefaultWorkingDirectory Expensish.Api.Tests TestResults
+      condition: succeededOrFailed()
