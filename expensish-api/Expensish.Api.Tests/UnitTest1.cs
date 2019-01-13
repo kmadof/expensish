@@ -10,5 +10,12 @@ namespace Expensish.Api.Tests
         {
 
         }
+
+        [Fact]
+        public void Test2()
+        {
+            var flag = true;
+            Assert.True(flag);
+        }
     }
 }
